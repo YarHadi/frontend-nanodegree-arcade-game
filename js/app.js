@@ -1,22 +1,47 @@
+const startPlayerX= 200,
+      startPlayerY= 390,  
+      cellWidth = 101,
+      cellHeight = 83,
+      leftBorder=0,
+      rightBorder=303,
+      topBorder=0;  
+
 // Enemies our player must avoid
-var Enemy = function() {
+
+var Enemy = function(x, y) {
+
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
+    this.x=x;
+    this.y=y;
+    this.speed=Math.random(100)*2+Math.random(100);
+
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
+
     this.sprite = 'images/enemy-bug.png';
 };
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
+
 Enemy.prototype.update = function(dt) {
+    
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+
+    this.x+=this.speed*dt;
+
+
+    //handels collision
+
+
 };
 
 // Draw the enemy on the screen, required method for game
+
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
@@ -25,12 +50,56 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 
+var Player = function(x, y){
+    this.resetPlayer();
+    this.sprite = 'images/char-boy.png';
+}
+
+Player.prototype.resetPlayer=function(){
+    this.x=startPlayerX;
+    this.y=startPlayerY;
+}
+
+Player.prototype.update = function(){
+    if(this.y<topBorder){
+        this.resetPlayer();
+    } 
+}
+
+Player.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+Player.prototype.handleInput= function(key){
+    switch(key){
+        case 'left':
+            if(this.x>leftBorder){
+            this.x-= cellWidth;
+        }
+        break;
+        case 'right':
+            if(this.x<rightBorder){
+            this.x+= cellWidth;
+            }
+        break;
+        case 'up':
+            this.y-= cellHeight;
+        break;
+        case 'down':
+            if(this.y<startPlayerY){
+            this.y+= cellHeight;
+        }
+        break;
+    }
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
+const player= new Player();
 
+const allEnemies=[];
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
