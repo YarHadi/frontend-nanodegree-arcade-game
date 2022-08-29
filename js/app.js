@@ -14,7 +14,7 @@ var Enemy = function (x, y) {
 
   this.x = x;
   this.y = y;
-  this.speed = Math.random() * 300 + 100;
+  this.speed = Math.random() * 200 + 200;
 
   // The image/sprite for our enemies, this uses
   // a helper we've provided to easily load images
@@ -42,7 +42,7 @@ Enemy.prototype.update = function (dt) {
 };
 
 Enemy.prototype.collision = function () {
-  if (Math.abs(this.x - player.x) < 50 && Math.abs(this.y - player.y) < 50) {
+  if (Math.abs(this.x - player.x) < 40 && Math.abs(this.y - player.y) < 40) {
     return 1;
   }
 };
